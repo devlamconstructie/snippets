@@ -6,6 +6,8 @@
 * again: you have to remember to declare the font family names, url's and weights *manually* in separate CSS files
 */
 
+
+if (!class_exists('ECF_Plugin')) :
 class ECF_Plugin {
 
     // this function is apparently called within Oxygenbuilder if the ECF_Plugin class is active.
@@ -16,7 +18,5 @@ class ECF_Plugin {
 	   return $font_family_list;	
     }
 };
-
-$ECF_Plugin = new ECF_Plugin();
-
+endif;
 ?>
