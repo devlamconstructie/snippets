@@ -8,7 +8,7 @@
 * @param string         $classname    optional, a classname for for the link. 
 * 
 **/
-function get_obfuscated_email($email, link=true, $classname=null){
+function get_obfuscated_email($email, $link=true, $classname=null){
 	 /*obfuscated email adress */
   $class = ($classname)? "class='$classname'" : "";
   $str = ($link)?"<a $class href='mailto:$email' rel='nofollow' >$email</a>": $email;
