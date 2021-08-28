@@ -25,7 +25,7 @@ if( function_exists('oxygen_vsb_register_condition') ) {
 	oxygen_vsb_register_condition('Previous in Category published', array('options'=>array('true', 'false'), 'custom'=>false), array('=='), 'cb_cat_has_prev_post', 'Post');
 }
 function cb_next_post_exists($v, $o){
-	return ($v === 'true') === boolval(get_next_post()));
+	return ($v === 'true') === boolval(get_next_post());
 }
 function cb_previous_post_exists($v, $o){
 	return ($v === 'true') === boolval(get_previous_post());
