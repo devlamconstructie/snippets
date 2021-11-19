@@ -27,7 +27,7 @@ function dvi_enqueue_scripts(){
     /*
       so far, everything has been just default wordpress functions. Now comes the interesting bit.
     */
-   dvi_enqueue_script_attr('jquery', 'async', 'defer')		
+   dvi_enqueue_script_attr('jquery', 'async', 'defer');	
    
 }
 
