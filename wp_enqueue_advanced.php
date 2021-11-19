@@ -27,8 +27,36 @@ function dvi_enqueue_scripts(){
     /*
       so far, everything has been just default wordpress functions. Now comes the interesting bit.
     */
-    dvi_update_async_script_handles('jquery'); //adds the jquery script to the list of scripts the async attribute needs to be added to.
-    dvi_update_defer_script_handles('jquery'); //adds the jquery script to the list of scripts the defer attribute needs to be added to.
+   dvi_enqueue_script_attr('jquery', 'async', 'defer')		
+   
+}
+
+
+/**
+* allows using only a single command for different script type attributes.
+* @param string $handle the script handle
+* @param mixed ...$atts comma separated strings for describing different attributes: accepts 'async', 'defer' and 'module.
+*/
+dvi_enqueue_script_attr($handle, ...$atts){
+	if(! $handle || empty($atts))
+		return
+	
+	foreach($atts as $attr){
+		switch($attr){
+			case('async'):
+				dvi_update_async_script_handles($handle);
+				break;	
+			case('defer'):
+				dvi_update_defer_script_handles($handle);
+				break;
+			case('module'):
+				dvi_update_module_script_handles($handle);
+				break;
+			default:
+				break;
+		}		
+		
+	}	
 }
 
 
