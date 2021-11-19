@@ -1,6 +1,6 @@
 <?php
 /* 
-some functions and hooks that allow for asynchronous and deferred script loading. 
+some functions and hooks that allow for asynchronous and deferred script loading and loading as a module.
 how to use:
 
 enqueue your scripts as normal using the wp_enqueue_scripts action hook.
