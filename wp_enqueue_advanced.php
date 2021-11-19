@@ -93,9 +93,10 @@ function dvi_add_tag_attributes( $tag, $handle ) {
  * @param string $handle the handle as defined in wp_enqueue  	
  */
 function dvi_add_tag_attribute_async($tag, $handle){
-	$handles = dvi_update_async_script_handles();
+	//retrieve the array of handles created during the enqueueing phase.
+	$async_handles_array = dvi_update_async_script_handles();
 	
-	if (! empty($handles) && in_array($handle, $handles ) )
+	if (! empty($async_handles_array) && in_array($handle, $async_handles_array ) )
 		$tag = str_replace( ' src', ' async="async" src', $tag );
 	
 	return $tag;
@@ -109,9 +110,10 @@ function dvi_add_tag_attribute_async($tag, $handle){
  * @param string $handle the handle as defined in wp_enqueue  	
  */
 function dvi_add_tag_attribute_defer($tag, $handle){
-	$handle_defer_array = dvi_update_defer_script_handles();
+	//retrieve the array of handles created during the enqueueing phase.
+	$defer_handles_array = dvi_update_defer_script_handles();
 	
-	if (! empty($handle_defer_array) && in_array($handle, $handle_defer_array ) )
+	if (! empty($defer_handles_array) && in_array($handle, $defer_handles_array ) )
 		$tag = str_replace( ' src', ' defer="defer" src', $tag );
 	
 	return $tag;
