@@ -41,9 +41,9 @@ END EXAMPLE
 * @param string $handle the script handle
 * @param mixed ...$atts comma separated strings for describing different attributes: accepts 'async', 'defer' and 'module.
 */
-dvi_enqueue_script_attr($handle, ...$atts){
+function dvi_enqueue_script_attr($handle, ...$atts){
 	if(! $handle || empty($atts))
-		return
+		return;
 	
 	foreach($atts as $attr){
 		switch($attr){
