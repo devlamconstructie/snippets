@@ -31,6 +31,10 @@ function dvi_enqueue_scripts(){
    
 }
 
+/*
+END EXAMPLE
+*/
+
 
 /**
 * allows using only a single command for different script type attributes.
@@ -60,9 +64,6 @@ dvi_enqueue_script_attr($handle, ...$atts){
 }
 
 
-/*
-END EXAMPLE
-*/
 
 /**
  * returns static handle array for asynchronously loading scripts. Returns empty array if none present.
