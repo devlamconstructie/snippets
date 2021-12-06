@@ -237,29 +237,28 @@ function dvi_add_tag_attribute_type_module($tag, $handle){
  * @param string $src the source value as compiled by WP_Scripts  
  */
 function dvi_add_tag_auto_version($tag, $handle, $src){
-	/* exit if file not on this server */
-	
+	//I'm pretty sure this currently only works if this snippet is in the root dir of the plugin. 
 	$plugin_url = trailingslashit( trailingslashit( plugins_url() ) . plugin_basename( dirname( __FILE__ ) ) ) ;
 	$plugin_path = trailingslashit( dirname(__FILE__, 1) ;
 		
 	$handle_autov_array = dvi_update_autoversion_script_handles();
 
-	/* exit if no autoversion scripts were queued */ 
+	// exit if no autoversion scripts were queued
 	if (empty($handle_autov_array))
 		return $tag;
 
-	/* exit if handle not in autov queue */
+	// exit if handle not in autov queue 
 	if (! in_array($handle, $handle_autov_array ) )
 		return $tag;
 	
-	/* clear version info from src */
+	// create system path to the file 
 	$file_url = explode('?', $src);
 	$file_url = array_shift($file_url);
-	/* retrieve file edit time from file  */
 	$path = str_replace($plugin_url, $plugin_path, $file_url);
 
-	/* maybe I should only replace the ver argument in the string in case there's more args*/
+	// remove the ver argument in the string
 	$newsrc = remove_query_arg( 'ver', $src );
+	//set file version to a file modified timestamp			       
 	$newsrc = add_query_arg( 'ver',  filemtime($path), $newsrc );
 
 	$tag = str_replace( $src, $newsrc, $tag );
