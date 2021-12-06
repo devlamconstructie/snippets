@@ -7,7 +7,7 @@ enqueue your scripts as normal using the wp_enqueue_scripts action hook.
 
 EXAMPLE:
 this example unloads the default local jquery version and replaces it with a cdn version loaded asynchronously and deferred.
-*/
+
 
 add_action( 'wp_enqueue_scripts', 'dvi_enqueue_scripts' );
 
@@ -24,16 +24,33 @@ function dvi_enqueue_scripts(){
     wp_add_inline_script( 'jquery', 'window.jQuery||document.write(\'<script src="'.includes_url( '/js/jquery/jquery.min.js' ).'"><\/script>\')' );
     wp_enqueue_script ( 'jquery' );
    
-    /*
-      so far, everything has been just default wordpress functions. Now comes the interesting bit.
-    */
+   // so far, everything has been just default wordpress functions. Now comes the interesting bit.
+   
    dvi_enqueue_script_attr('jquery', 'async', 'defer');	
    
 }
-
-/*
 END EXAMPLE
 */
+
+/**
+* wrapper enqueues scripts and sets options in one command.
+* @example advanced_enqueue_script('your-handle', 'https://www.somedomain.com/js/your.js', ['async', 'defer', 'autoversion'], '', true);
+* @param string $handle
+* @param string $url
+* @param string | array $options desired loading options as either a single string or array of strings.
+* @param array $deps dependencies
+* @param string $version
+* @param bool $foot
+* @uses wp_enqueue_script  
+* @uses dvi_enqueue_script 
+*/
+function advanced_enqueue_script($handle, $url, $ops, $deps=array(), $ver='', $foot=false){
+	if( is_string($ops) ) $ops = [$ops];
+
+	wp_enqueue_script($handle, $url, $deps, $ver, $foot);
+	dvi_enqueue_script_attr($handle, ...$ops);
+
+}
 
 
 /**
