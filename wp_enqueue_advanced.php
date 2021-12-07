@@ -1,14 +1,37 @@
 <?php
 /* 
-some functions and hooks that allow for asynchronous and deferred script loading and loading as a module.
-how to use:
+advanced enqueueing of javascript files in the wordpress header.
 
-enqueue your scripts as normal using the wp_enqueue_scripts action hook.
+These functions use the script_loader_tag filter to print script tags. 
+see https://developer.wordpress.org/reference/hooks/script_loader_tag/
+
+advanced script enqueueing;
+enqueue async, defer, module and autoversion 'the wordpress way'.  Now has a simple wrapper so you can set the options you want in one command.
+
+example: 
+advanced_enqueue_script('your-handle', 'https://www.somedomain.com/js/your.js', array('async', 'defer', 'autoversion'));
+
+example: 
+advanced_enqueue_script('your-handle', 'https://www.somedomain.com/js/your.js', 'autoversion');
+
+example:
+advanced_enqueue_script('your-handle', 'https://www.somedomain.com/js/your.js', array('async', 'defer'), array('dependency'), '1.0.1', false);
+
+
+alternatively, edit the loading method of already enqueued scripts with this simple function
+
+example:
+dvi_enqueue_script_attr('your-handle', 'async') 
+ 
+example: 
+dvi_enqueue_script_attr('your-handle', 'autoversion', 'async') 
 
 EXAMPLE:
 this example unloads the default local jquery version and replaces it with a cdn version loaded asynchronously and deferred.
+first we dequeue and deregister the local jquery version. Then we register the version we want. We add a fallback line in case the one we want is out. Then we enqueue that. 
 
-
+finally, we 
+//hook into wp_enqueue_scripts 
 add_action( 'wp_enqueue_scripts', 'dvi_enqueue_scripts' );
 
 function dvi_enqueue_scripts(){ 
@@ -16,18 +39,9 @@ function dvi_enqueue_scripts(){
    wp_dequeue_script( 'jquery' );
    wp_deregister_script( 'jquery' );
  
-   //register the desired jquery version and source.
-   $version = '3.6.0';
-   wp_register_script( 'jquery', "https://ajax.googleapis.com/ajax/libs/jquery/$version/jquery.min.js", '', $version );
+   //enqueue the desired jquery version and loading method
+    advanced_enqueue_script( 'jquery', "https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js", array('async', 'defer'), array(), '3.6.0' ); 
   
-    //optional: use local jquery as fallback
-    wp_add_inline_script( 'jquery', 'window.jQuery||document.write(\'<script src="'.includes_url( '/js/jquery/jquery.min.js' ).'"><\/script>\')' );
-    wp_enqueue_script ( 'jquery' );
-   
-   // so far, everything has been just default wordpress functions. Now comes the interesting bit.
-   
-   dvi_enqueue_script_attr('jquery', 'async', 'defer');	
-   
 }
 END EXAMPLE
 */
