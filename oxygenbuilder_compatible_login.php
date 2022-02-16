@@ -2,6 +2,13 @@
 if ( ! defined( 'WPINC' )) 
     wp_die();
 
+/* I published this custom login script as an example. You'll have to modify it for it to work. 
+It is written to go together with a page with a bunch of conditional sections containing the actual password forms.
+
+if there's interest I may convert this into a plugin.
+*/
+
+
  /* add_action('login_form_logout', 'redirect_to_custom_logout'); */
 
 /**
