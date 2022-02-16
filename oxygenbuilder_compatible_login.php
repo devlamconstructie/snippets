@@ -489,8 +489,85 @@ function get_error_message( $error_code ) {
     return $error_string;
 }
 
+/*custom oxygen conditions */
+function sndt_login_param_callback($value, $operator){
+    $qv = get_query_var('action');
+    
+    if ( '==' === $operator ) 
+        return $qv === $value;
+ 
+    return $qv !== $value;
+}
+
+function sndt_check_email_exists_callback($value, $operator){
+    $eqv = get_query_var('sndtemail');
+    $ex = (email_exists($eqv))?'true': 'false';
+    if ( '==' === $operator ) 
+        return $ex === $value;
+
+    return $ex !== $value;
+}
+
+function sndt_loginmsg_callback($value, $operator){
+    $qv = get_query_var('login');
+    if ( '==' === $operator )
+        return $qv === $value;
+
+    return $qv !== $value;
+}
 
 
+/**
+ * AFTER all the plugins are loaded, register the conditions with oxygen.
+ */
+add_action( 'plugins_loaded', 'register_oxygen_vsb_conditions' );
+function register_oxygen_vsb_conditions(){  
+    
+    if (! function_exists( 'oxygen_vsb_register_condition' ) ) 
+        return;    
+    /**
+     * 
+    * oxygen_vsb_register_condition takes the arguments
+    * @param string name of the condition
+    * @param array values the condition will evaluate 
+    * @param array operators the condition will use for evaluation
+    * @param string name of callback function which returns either true or false
+    * callback is called with two parameters: value and operator
+    * @param string rubric of where the condition will be in the UI.
+    */
+      oxygen_vsb_register_condition(
+        'user action',
+        array( 
+            'options' => array('checkemail', 'done', 'loggedout', 'lostpassword', 'reset', 'retry','rp'),
+            'custom' => true
+        ),
+        array( '==', '!=' ),
+        'sndt_login_param_callback',
+        'User'
+    );
+
+    oxygen_vsb_register_condition(
+        'email registered',
+        array( 
+            'options' => array('true', 'false'),
+            'custom' => false
+        ),
+        array( '==', '!=' ),
+        'sndt_check_email_exists_callback',
+        'User'
+    );
+ 
+    oxygen_vsb_register_condition(
+        'login message',
+        array( 
+            'options' => array('incorrect_password', 'some_other_message'),
+            'custom' => false
+        ),
+        array( '==', '!=' ),
+        'sndt_loginmsg_callback',
+        'User'
+    );
+}
 
 
 ?>
