@@ -12,7 +12,7 @@ if (!class_exists('ECF_Plugin')) :
 class ECF_Plugin {
 
     // this function is apparently called within Oxygenbuilder if the ECF_Plugin class is active.
-    function get_font_families() {
+    static function get_font_families() {
        $font_family_list[] = "your font family name"; 
        // $font_family_list[] = "Add, Font-Family-Names, As, Needed";
 		
